@@ -167,7 +167,7 @@ export class Header {
     }
   });
 }
-  
+
 
   onSignup() {
     if (this.signupForm.invalid) {

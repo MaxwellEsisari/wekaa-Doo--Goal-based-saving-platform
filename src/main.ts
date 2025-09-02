@@ -10,6 +10,6 @@ bootstrapApplication(App, {
   ...appConfig,
   providers: [
     ...(appConfig.providers || []),      // keep existing providers
-    importProvidersFrom(HttpClientModule) // ✅ provide HttpClient globally
+    importProvidersFrom(HttpClientModule) // provide HttpClient globally
   ]
 }).catch(err => console.error(err));
