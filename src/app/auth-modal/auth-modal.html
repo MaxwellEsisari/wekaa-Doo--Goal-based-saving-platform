@@ -1,0 +1,13 @@
+<div class="modal">
+  <h2 *ngIf="data?.mode === 'login'">Login</h2>
+  <h2 *ngIf="data?.mode === 'signup'">Sign Up</h2>
+
+  <!-- Example form -->
+  <form>
+    <input type="email" placeholder="Email" />
+    <input type="password" placeholder="Password" />
+    <button type="submit">{{ data.mode === 'login' ? 'Login' : 'Sign Up' }}</button>
+  </form>
+
+  <button (click)="close()">Close</button>
+</div>

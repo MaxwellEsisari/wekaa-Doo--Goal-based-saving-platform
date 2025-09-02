@@ -1,1 +1,83 @@
-/* You can add global styles to this file, and also import other style files */
+/* Reset default browser margins and paddings */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; 
+}
+
+/* Set body and html to full width and height */
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Arial', sans-serif; /* choose default font */
+}
+
+/* Optional: prevent horizontal scrolling */
+body {
+  overflow-x: hidden;
+}
+/* Dark overlay background */
+.cdk-overlay-backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Right-side modal panel */
+.auth-dialog-right.cdk-overlay-pane {
+  position: fixed !important;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  display: flex;
+  align-items: flex-start; /* stick to top */
+  justify-content: flex-end;
+}
+
+/* Modal content */
+.auth-dialog-right .modal {
+  background: #fff;
+  border-radius: 8px 0 0 8px;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+  height: 100%;
+  width: 350px;
+  padding: 20px;
+  animation: slideIn 0.3s ease;
+}
+
+/* Simple animation */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Form styles */
+.modal form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.modal button {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.modal button:hover {
+  background: #0056b3;
+}
