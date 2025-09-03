@@ -5,21 +5,76 @@
       <!-- Left Content -->
       <div class="left-content show-up header-text wow fadeInLeft" data-wow-duration="1s" data-wow-delay="1s">
         <h2>Your Dreams, Your Savings, Your Future</h2>
-        <p>Wekaa Doo is designed to give you control over your finances, making it easier to turn everyday savings into life-changing milestones.</p>
+        <p>Wekaa Doo is designed to give you control over your finances, making it easier to <br> turn everyday savings into life-changing milestones.
+
+        </p>
         
         <div class="d-flex gap-3">
           <div class="white-button first-button scroll-to-section">
-            <a href="#contact">Start Saving <i class="fas fa-piggy-bank"></i></a>
-          </div>
-          
+            <a>Start Saving <fa-icon [icon]="faPiggyBank"></fa-icon></a>
+          </div>          
         </div>
       </div>
 
-      <!-- Right Image -->
-      <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
-        <img src="slider-dec.png" alt="Hero Right Image">
+    <div class="right-image wow fadeInRight" data-wow-duration="1s" data-wow-delay="0.5s">
+  <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false" data-bs-wrap="true">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="slider-dec3.jpg" class="d-block w-100" alt="Slide 1">
       </div>
+      <div class="carousel-item">
+        <img src="slider-dec1.jpg" class="d-block w-100" alt="Slide 2">
+      </div>
+      <div class="carousel-item">
+        <img src="slider-dec2.jpg" class="d-block w-100" alt="Slide 3">
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+
+
+
 
     </div>
   </div>
 </section>
+
+<section id="get-started">
+  <div class="container">
+    <div class="left-side">
+      <img src="bank.png" alt="Mobile Phone" class="phone-svg" />
+    </div>
+
+    <div class="right-side">
+      <h2>Get Started in 4 Easy Steps</h2>
+
+      <ul class="steps" role="list" aria-label="Getting started steps">
+        <li
+          *ngFor="let step of steps; let i = index"
+          class="step"
+          [class.active]="currentStep === i"
+          [attr.aria-current]="currentStep === i ? 'step' : null"
+        >
+          <span class="step-index">{{ i + 1 }}</span>
+          <span class="step-text">{{ step }}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+
+
+

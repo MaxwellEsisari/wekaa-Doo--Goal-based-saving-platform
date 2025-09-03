@@ -6,8 +6,10 @@ import { Observable } from 'rxjs';
 import { SignupRequest } from '../models/signup-request';
 import { SignupResponse } from '../models/signup-response';
 
-const API_URL = 'http://localhost:8080/api/v1/auth/login';
-const SIGNUP_API ='http://localhost:8080/api/v1/auth/register';
+const API_BASE_URL = 'https://a2048b41147e.ngrok-free.app/api/v1/auth';
+const API_URL = `${API_BASE_URL}/login`;
+const SIGNUP_API = `${API_BASE_URL}/register`;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,6 +33,4 @@ export class AuthService {
 
     return this.http.post<SignupResponse>(SIGNUP_API, formData);
   }
-
 }
-
