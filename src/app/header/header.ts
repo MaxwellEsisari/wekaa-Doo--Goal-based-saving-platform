@@ -170,45 +170,42 @@ export class Header {
 
 
   onSignup() {
-    if (this.signupForm.invalid) {
-      this.authMessage = 'Please fill in all required fields';
-      return;
-    }
-
-    if (this.signupForm.value.password !== this.signupForm.value.confirmPassword) {
-      this.authMessage = 'Passwords do not match';
-      return;
-    }
-
-    const request: SignupRequest = {
-      firstName: this.signupForm.value.firstName,
-      lastName: this.signupForm.value.lastName,
-      email: this.signupForm.value.email,
-      password: this.signupForm.value.password
-    };
-
-    this.authService.doSignup(request, this.selectedImage!).subscribe({
-      next: (res) => {
-        this.authMessage = 'Signup successful!';
-        console.log('Signup Response:', res);
-      },
-      error: (err) => {
-        this.authMessage = 'Signup failed. Please try again.';
-        console.error('Signup error:', err);
-      }
-    });
+  if (this.signupForm.invalid) {
+    this.authMessage = 'Please fill in all required fields';
+    return;
   }
 
-  onImageSelected(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
-    if (fileInput.files && fileInput.files.length > 0) {
-      this.selectedImage = fileInput.files[0];
-    }
+  if (this.signupForm.value.password !== this.signupForm.value.confirmPassword) {
+    this.authMessage = 'Passwords do not match';
+    return;
   }
 
+  // Build request object matching backend DTO
+  const request: SignupRequest = {
+    firstname: this.signupForm.value.firstName,       // 👈 map to backend field
+    lastname: this.signupForm.value.lastName,         // 👈 map to backend field
+    email: this.signupForm.value.email,
+    password: this.signupForm.value.password,
+    confirmPassword: this.signupForm.value.confirmPassword, // 👈 required
+    profileImage: this.selectedImage ? this.selectedImage.name : '' // optional
+  };
 
-  
+  this.authService.doSignup(request, this.selectedImage!).subscribe({
+    next: (res) => {
+      this.authMessage = 'Signup successful!';
+      console.log('Signup Response:', res);
+    },
+    error: (err) => {
+      this.authMessage = 'Signup failed. Please try again.';
+      console.error('Signup error:', err);
+    }
+  });
 }
-// Handle Signup
-
+onImageSelected(event: Event) {
+  const fileInput = event.target as HTMLInputElement;
+  if (fileInput.files && fileInput.files.length > 0) {
+    this.selectedImage = fileInput.files[0];
+  }
+}
+}
 

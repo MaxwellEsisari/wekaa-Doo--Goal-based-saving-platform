@@ -1,7 +1,8 @@
 export interface SignupRequest {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   email: string;
   password: string;
-  image?: string;
+  confirmPassword: string;  
+  profileImage?: string;     
 }

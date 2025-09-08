@@ -1,7 +1,14 @@
+#top {
+  transition: opacity 0.5s ease-out, height 0.5s ease-out;
+}
+
+
+
 .main-banner {
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: height 0.6s ease, opacity 0.6s ease;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -126,12 +133,15 @@
 
 #get-started {
   position: relative;
-  padding: 60px 0;
+  padding: 0px 0;
+  transition: margin-top 0.6s ease, background-color 0.6s ease;
+
 
   .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
+    // background-color: #def5f8;
     display: flex;
     gap: 28px;
     align-items: center;
@@ -224,6 +234,37 @@
     .right-side { width: 100%; }
   }
 }
+
+.animated-text {
+  text-align: right;
+  overflow: hidden;
+  padding: 50px 300px;
+  perspective: 1200px;
+  transform-style: preserve-3d;
+  transform: rotateX(25deg) rotateY(-10deg);
+
+  p {
+    margin: 30px 0;
+    font-weight: bold;
+    transition: transform 0.6s ease, opacity 0.6s ease, font-size 0.6s ease;
+    transform-origin: right center;
+    opacity: 0.6;
+    font-size: 2rem;
+    transform: translateZ(-200px); // baseline slope depth
+
+    &.active {
+      transform: translateZ(250px) scale(1.4);
+      font-size: 2rem;
+      opacity: 1;
+      color: #000;
+    }
+  }
+}
+
+
+
+
+
 
 
 
