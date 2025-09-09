@@ -15,8 +15,8 @@
     <li><a routerLink="/contact" routerLinkActive="active-link">Contact</a></li>
   </ul>
 
-  <!-- Right: Search & Account -->
-  <div class="nav-right">
+<!-- Right: Search & Account -->
+<div class="nav-right">
   <!-- Search button -->
   <div class="nav-item mega-menu-wrapper" (click)="toggleSearchMenu($event)">
     <a href="javascript:void(0)">Search</a>
@@ -24,65 +24,90 @@
 
   <!-- Account -->
   <div class="nav-item dropdown-wrapper" [class.open]="isAccountOpen">
-    <!-- pass $event so we can stopPropagation inside toggle -->
-    <a href="javascript:void(0)" (click)="toggleAccountMenu($event)">Account</a>
+    <!-- Show username or "Account" -->
+    <a href="javascript:void(0)" (click)="toggleAccountMenu($event)">
+      {{ isLoggedIn ? userName : 'Account' }}
+    </a>
 
     <div class="dropdown-menu">
-      <!-- ACCOUNT-HOME -->
-      <ng-container *ngIf="accountPage === 'account-home'">
-        <p>Create an account and start your journey towards saving for your Future</p>
-        <div class="auth-links">
-          <a href="javascript:void(0)"
-             (click)="goToPage('login', $event)"
-             class="login">Login</a>
-
-          <a href="javascript:void(0)"
-             (click)="goToPage('signup', $event)"
-             class="signup">Sign Up</a>
-        </div>
-      </ng-container>
-
-      <!-- LOGIN -->
-      <ng-container *ngIf="accountPage === 'login'">
-        <h4>Login</h4>
-        <div class="account-form">
-          <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-            <input type="email" placeholder="Email" formControlName="email" /><br />
-            <input type="password" placeholder="Password" formControlName="password" /><br />
-            <button type="submit">Login</button>
-            <p class="para">Don't have an account?
-              <a href="javascript:void(0)" (click)="goToPage('signup', $event)">Sign Up</a>
-            </p>
-          </form>
-          <p>{{ authMessage }}</p>
-        </div>
-        <a href="javascript:void(0)" (click)="goBack($event)">← Back</a>
-      </ng-container>
-
-      <!-- SIGNUP -->
-      <ng-container *ngIf="accountPage === 'signup'">
-        <h4>Sign Up</h4>
-        <div class="account-form">
-          <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
-            <input type="text" placeholder="First Name" formControlName="firstName" /><br />
-            <input type="text" placeholder="Last Name" formControlName="lastName" /><br />
-            <input type="email" placeholder="Email" formControlName="email" /><br />
-            <input type="password" placeholder="Password" formControlName="password" /><br />
-            <input type="password" placeholder="Confirm Password" formControlName="confirmPassword" /><br />
-            <input type="file" (change)="onImageSelected($event)" /><br />
-            <button type="submit" >Sign Up</button>
-            <p class="para">Already have an account?
-              <a href="javascript:void(0)" (click)="goToPage('login', $event)">Login</a>
-            </p>
-          </form>
-          <p>{{ authMessage }}</p>
-        </div>
-        <a href="javascript:void(0)" (click)="goBack($event)">← Back</a>
-      </ng-container>
-
+  <!-- ACCOUNT-HOME -->
+<ng-container *ngIf="accountPage === 'account-home'">
+  <ng-container *ngIf="!isLoggedIn; else loggedInMenu">
+    <p>Create an account and start your journey towards saving for your Future</p>
+    <div class="auth-links">
+      <a href="javascript:void(0)" (click)="goToPage('login', $event)" class="login">Login</a>
+      <a href="javascript:void(0)" (click)="goToPage('signup', $event)" class="signup">Sign Up</a>
     </div>
+  </ng-container>
+
+  <ng-template #loggedInMenu>
+    <p>Welcome back, {{ userName }}</p>
+    <div class="auth-links">
+      <a routerLink="/dashboard" class="dashboard">Dashboard</a>
+      <a href="javascript:void(0)" (click)="logout()" class="logout">Logout</a>
+    </div>
+  </ng-template>
+</ng-container>
+
+
+  <!-- LOGIN FORM -->
+  <ng-container *ngIf="accountPage === 'login'">
+    <h4>Login</h4>
+    <div class="account-form">
+      <!-- Auth message -->
+      <p *ngIf="!isLoading && authMessage"
+         [ngClass]="{ 'success-message': isSuccess, 'error-message': isSuccess === false }">
+        {{ authMessage }}
+      </p>
+
+      <div class="login-wrapper" [class.blurred]="isLoading">
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <input type="email" formControlName="email" placeholder="Email" />
+          <input type="password" formControlName="password" placeholder="Password" />
+
+          <p class="para">Don't have an account?
+            <a href="javascript:void(0)" (click)="goToPage('signup', $event)">Sign Up</a>
+          </p>
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+
+      <!-- Loader -->
+      <div *ngIf="isLoading" class="form-loader">
+        <div class="spinner"></div>
+        <p>Logging in...</p>
+      </div>
+    </div>
+    <a href="javascript:void(0)" (click)="goBack($event)">← Back</a>
+  </ng-container>
+
+  <!-- SIGNUP FORM -->
+  <ng-container *ngIf="accountPage === 'signup'">
+    <h4>Sign Up</h4>
+    <div class="account-form">
+      <form [formGroup]="signupForm" (ngSubmit)="onSignup()">
+        <input type="text" placeholder="First Name" formControlName="firstName" /><br />
+        <input type="text" placeholder="Last Name" formControlName="lastName" /><br />
+        <input type="email" placeholder="Email" formControlName="email" /><br />
+        <input type="password" placeholder="Password" formControlName="password" /><br />
+        <input type="password" placeholder="Confirm Password" formControlName="confirmPassword" /><br />
+        <input type="file" (change)="onImageSelected($event)" /><br />
+        <button type="submit">Sign Up</button>
+
+        <p class="para">Already have an account?
+          <a href="javascript:void(0)" (click)="goToPage('login', $event)">Login</a>
+        </p>
+      </form>
+      <p>{{ authMessage }}</p>
+    </div>
+    <a href="javascript:void(0)" (click)="goBack($event)">← Back</a>
+  </ng-container>
+</div>
+
   </div>
 </div>
+
 
 
   

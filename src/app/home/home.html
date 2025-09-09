@@ -54,16 +54,24 @@
   </div>
 </section>
 
-<section id="get-started"
-    [style.backgroundColor]="secondSectionBg"
-    [style.marginTop]="secondSectionMargin">
+<section id="get-started">
   <div class="container">
     <div class="left-side">
-      <img src="bank.png" alt="Mobile Phone" class="phone-svg" />
+      <video
+        class="phone-video"
+        autoplay
+        muted
+        loop
+        playsinline
+      >
+        <source [src]="'banks.mp4'" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
     </div>
 
+
     <div class="right-side">
-      <h2>Get Started in 4 Easy Steps</h2>
+      <h2 [style.color]="textColor">Get Started in 4 Easy Steps</h2>
 
       <ul class="steps" role="list" aria-label="Getting started steps">
         <li
@@ -72,22 +80,96 @@
           [class.active]="currentStep === i"
           [attr.aria-current]="currentStep === i ? 'step' : null"
         >
-          <span class="step-index">{{ i + 1 }}</span>
-          <span class="step-text">{{ step }}</span>
+          <span class="step-index" [style.color]="textColor">{{ i + 1 }}</span>
+          <div class="step-content">
+            <span class="step-text" [style.color]="textColor">{{ step.title }}</span>
+            <p class="step-description" [style.color]="textColor">{{ step.description }}</p>
+          </div>
         </li>
+
       </ul>
+
+    </div>
+
+    <h2></h2>
+  </div>
+</section>
+
+<section id="available-plans">
+  <div class="container">
+    <h2>What <span>targets do <br>you want</span> to reach?</h2>
+    <p>
+      Set a goal, plan your steps, and track your progress. WekaaDoo is here to help you through every step.
+    </p>
+
+    <div class="cards-wrapper">
+      <!-- Cards -->
+      <div class="cards-container" #cardsContainer>
+        <div class="card" *ngFor="let plan of plans">
+          <img src="holder.jpg" alt="Plan Image" class="card-image" />
+          <div class="card-text">
+            <h3>Plan {{ plan }}</h3>
+            <p>Short description goes here.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Left arrow -->
+      <button class="scroll-btn left" (click)="scrollLeft()">&#10094;</button>
+
+      <!-- Right arrow -->
+      <button class="scroll-btn right" (click)="scrollRight()">&#10095;</button>
     </div>
   </div>
-  
+</section>
+ <section id="features">
+    <h2>Awesome services</h2>
+    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusantium quis impedit, delectus exercitationem quas voluptates nisi amet animi assumenda magni.
+      
+    </p>
+    <div class="features-container">
+      <div class="feature-card" *ngFor="let f of features">
+        <div class="feature-icon">{{ f.icon }}</div>
+        <h3>{{ f.title }}</h3>
+        <p>{{ f.description }}</p>
+      </div>
+    </div>
+  </section>
+
+<section id="testimonials">
+    <h2 class="section-title">What <span class="span-title">Our Users </span>Say</h2>
+  <!-- Testimonials -->
+  <div class="testimonial-wrapper container">
+    <div class="testimonial-card" *ngFor="let t of testimonials; let i = index" 
+         [class.active]="i === currentIndex">
+      <div class="testimonial-content">
+        <p class="testimonial-quote">“{{ t.quote }}”</p>
+        <h4 class="testimonial-name">— {{ t.name }}</h4>
+      </div>
+      <div class="testimonial-image">
+        <img [src]="t.image" [alt]="t.name" />
+      </div>
+    </div>
+  </div>
+</section>
+
+ 
+
+
+
+<section id="about">
 
 </section>
+
+
+
+
+
 
 <!-- <section class="animated-text">
   <p *ngFor="let text of texts">{{ text }}</p>
 </section> -->
-<section style="height: 100vh;">
 
-</section>
 
 
 

@@ -6,7 +6,9 @@ import { LoginResponse } from '../models/login-response';
 import { AuthService } from '../services/auth-service';
 import { SignupResponse } from '../models/signup-response';
 import { SignupRequest } from '../models/signup-request';
+import { Router } from '@angular/router';
 import { H } from '@angular/cdk/keycodes';
+import { Loader } from '../shared/loader/loader';
 
 @Component({
   selector: 'app-header',
@@ -23,6 +25,8 @@ export class Header {
   isScrolled = false;
   isSearchOpen = false;
   isAccountOpen = false;
+  isSuccess: boolean | null = null;
+  isLoading = false;
 
   authMessage: string = '';
 
@@ -105,7 +109,10 @@ export class Header {
       this.isAccountOpen = false;
     }
   }
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService,
+               private router: Router
+
+    ) {}
 
   // ==========================
   // FORMS
@@ -128,44 +135,69 @@ export class Header {
   // AUTH LOGIC
   // ==========================
 
-  onLogin() {
-  if (this.loginForm.invalid) {
-    this.authMessage = 'Please enter valid login details';
-    return;
-  }
-
-  const request: LoginRequest = {
-    email: this.loginForm.value.email,
-    password: this.loginForm.value.password
-  };
+onLogin() {
+  this.isLoading = true;
+  this.authMessage = '';
+  const request = this.loginForm.value;
 
   this.authService.doLogin(request).subscribe({
-    next: (res) => {
-      this.authMessage = 'Login successful!';
-      console.log('Login Response:', res);
+    next: (res: any) => {
+      this.isSuccess = true;
 
-      if ((res as any).token) {
-        localStorage.setItem('authToken', (res as any).token);
-      }
+      // Save token and user info
+      if (res.token) localStorage.setItem('authToken', res.token);
+      if (res.user) localStorage.setItem('user', JSON.stringify(res.user));
+      else localStorage.setItem('user', JSON.stringify({ email: this.loginForm.value.email }));
+
+      // Simulate loader for 3 seconds
+      setTimeout(() => {
+        this.isLoading = false;
+        this.authMessage = 'Login successful!';
+
+        // Close dropdown and redirect to root
+        this.isAccountOpen = false;
+        this.router.navigate(['/']);
+      }, 3000);
     },
     error: (err) => {
       console.error('Login error:', err);
+      this.isSuccess = false;
 
-      if (err.status === 0) {
-        // Server unreachable (CORS, wrong port, backend down, etc.)
-        this.authMessage = 'Connection error: Unable to reach the server.';
-      } else if (err.status === 404) {
-        this.authMessage = 'Error 404: Endpoint not found. Please check API URL.';
-      } else if (err.status === 401) {
-        this.authMessage = 'Error 401: Unauthorized. Please check your email or password.';
-      } else if (err.status === 500) {
-        this.authMessage = 'Error 500: Internal server error. Something went wrong on the server.';
-      } else {
-        // Generic fallback for unexpected errors
-        this.authMessage = `Unexpected error (${err.status}): ${err.message || 'Unknown issue'}`;
-      }
+      setTimeout(() => {
+        this.isLoading = false;
+        this.authMessage = 'Login failed. Please check your credentials.';
+        setTimeout(() => {
+          this.authMessage = '';
+          this.isSuccess = null;
+        }, 3000);
+      }, 3000);
     }
   });
+}
+
+
+
+get isLoggedIn(): boolean {
+  return !!localStorage.getItem('authToken');
+}
+
+get userName(): string {
+  const user = localStorage.getItem('user');
+  if (user) {
+    const u = JSON.parse(user);
+    return u.firstname ? u.firstname : u.email; // show first name
+  }
+  return 'Account';
+}
+
+
+
+logout() {
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('user');
+  this.authMessage = 'You have logged out successfully';
+  this.accountPage = 'account-home'; // reset dropdown
+  this.router.navigate(['/']);       // redirect to home
 }
 
 
@@ -182,11 +214,11 @@ export class Header {
 
   // Build request object matching backend DTO
   const request: SignupRequest = {
-    firstname: this.signupForm.value.firstName,       // 👈 map to backend field
-    lastname: this.signupForm.value.lastName,         // 👈 map to backend field
+    firstname: this.signupForm.value.firstName,       
+    lastname: this.signupForm.value.lastName,         // map to backend field
     email: this.signupForm.value.email,
     password: this.signupForm.value.password,
-    confirmPassword: this.signupForm.value.confirmPassword, // 👈 required
+    confirmPassword: this.signupForm.value.confirmPassword, // required
     profileImage: this.selectedImage ? this.selectedImage.name : '' // optional
   };
 
