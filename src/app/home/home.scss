@@ -22,7 +22,7 @@
   // Decorative left overlay
   &::after {
     content: '';
-    background-image: url('../../assets/images/image4.png');
+    background-image: url('../../assets/images/slider-left-dec.png');
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
@@ -454,7 +454,7 @@
 
 #testimonials {
   padding: 40px 20px; /* reduced from 60px */
-  height: 70vh;
+  height: 50vh;
   background-image: url('../../assets/images/6.jpg');
   background-size: cover; 
   background-position: center; 
@@ -467,7 +467,8 @@
     padding-top: 40px;
     margin-bottom: 30px; 
     font-weight: bold;
-    padding-left: 50px;
+    font-family: monospace;
+    padding-left: 150px;
     color: #333;
     text-align: left;
   }
@@ -487,6 +488,7 @@
     border-radius: 0; 
     box-shadow: none; 
     text-align: left;
+    padding-left: 100px;
     opacity: 0;
     transform: translateX(100%);
     transition: all 0.6s ease-in-out;
@@ -563,9 +565,10 @@
   text-align: center;
 
   h2 {
-    font-size: 2.4rem;
+    font-size: 2rem;
     margin-bottom: 12px;
-    font-weight: bold;
+    font-weight: 600;
+    font-family: monospace;
     color: #111d2a;
   }
 
@@ -598,7 +601,7 @@
       height: 350px; // taller than width
       width: 300px;  // ensures portrait look
       margin: 0 auto;
-      border-radius: 15px 65px 15px 15px;
+      border-radius: 15px 105px 15px 65px;
       text-align: center;
       background: #fefefe;
       box-shadow: 0 8px 20px rgba(3, 37, 232, 0.233);
@@ -622,10 +625,10 @@
         height: 200%;
         background: linear-gradient(
           135deg,
-          #111d2a,
-          #3c7bd6,
-          #9bbee4,
-          #ff00b7
+          #161817,
+          #4dccec,
+          #60828a,
+          #0c1918
         );
         z-index: -1;
         transition: top 0.6s ease, left 0.6s ease;
@@ -667,9 +670,132 @@
 }
 
 
-#about{
-height: 40vh;
+#faqs {
+  padding: 60px 20px;
+  background: #f9fbfd;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  transition: background-color 0.8 ease;
+
+  &.scrolled{
+  background-color: #9dd1de;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #1a237e;
+  }
+
+  input {
+    width: 100%;
+    max-width: 500px;
+    padding: 12px 16px;
+    margin: 0 auto 24px;
+    display: block;
+    border: 1px solid #d1d9e6;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+
+    &:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+      outline: none;
+    }
+  }
+
+  // Tag filters
+  > .container > div:nth-of-type(2),
+  > .container > div:nth-of-type(3) {
+    margin: 15px 0;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 8px 16px;
+    margin: 4px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #1976d2;
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    &.active {
+      background: #1976d2;
+      color: #fff;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 30px 0;
+    text-align: left;
+
+    li {
+      margin-bottom: 16px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      background: #fff;
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+      }
+
+      button {
+        width: 100%;
+        text-align: left;
+        font-weight: 600;
+        font-size: 1.05rem;
+        padding: 16px;
+        background: transparent;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #333;
+      }
+
+      div {
+        padding: 0 16px 16px;
+        font-size: 0.95rem;
+        color: #555;
+        line-height: 1.6;
+        border-top: 1px solid #eee;
+        animation: fadeIn 0.3s ease;
+      }
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }
+
 
 
 

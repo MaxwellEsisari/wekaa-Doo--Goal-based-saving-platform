@@ -1,3 +1,5 @@
+<app-header></app-header>
+
 <section class="main-banner wow fadeIn" 
  id="top" 
  [style.opacity]="firstSectionOpacity" 
@@ -136,7 +138,7 @@
     </div>
   </section>
 
-<section id="testimonials">
+<section id="testimonials" #testimonialsSection>
     <h2 class="section-title">What <span class="span-title">Our Users </span>Say</h2>
   <!-- Testimonials -->
   <div class="testimonial-wrapper container">
@@ -153,13 +155,40 @@
   </div>
 </section>
 
- 
+<section id="faqs" class="faq-section"[class.scrolled]="faqsBgActive">
+  <div class="container">
+    <h2>Frequently Asked Questions</h2>
 
+    <input [formControl]="queryControl" placeholder="Search FAQs..." />
 
+    <div>
+      <button (click)="expandAll()">Expand all</button>
+      <button (click)="collapseAll()">Collapse all</button>
+    </div>
 
-<section id="about">
+    <div *ngIf="availableTags.length">
+      <button (click)="selectTag(null)" [class.active]="selectedTag === null">All</button>
+      <button *ngFor="let t of availableTags" (click)="selectTag(t)" [class.active]="selectedTag === t">{{ t }}</button>
+    </div>
 
+    <ul>
+      <li *ngFor="let f of filteredFaqs()">
+        <button (click)="toggle(f)">
+          {{ f.question }}
+          <span>{{ f.open ? '▾' : '▸' }}</span>
+        </button>
+        <div *ngIf="f.open">
+          <p>{{ f.answer }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
 </section>
+
+<app-footer></app-footer>
+
+
+
 
 
 

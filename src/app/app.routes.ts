@@ -9,4 +9,15 @@ export const routes: Routes = [
         import('./home/home').then(m => m.Home),
 
     },
+    {
+        path : 'dashboard',
+        pathMatch: 'full',
+        loadComponent: () => 
+        import('./dashboard/dashboard').then(m => m.Dashboard),
+
+    },
+
+    
+
+
 ];
