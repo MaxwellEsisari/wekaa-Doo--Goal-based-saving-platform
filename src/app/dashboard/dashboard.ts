@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatePipe, NgForOf, NgIf, NgStyle } from '@angular/common';
-
+import confetti from 'canvas-confetti';
 
 interface Goal {
   id: number;
@@ -45,8 +45,8 @@ export class Dashboard implements OnInit {
       { id: 2, title: 'Vacation', emoji: '🏖️', saved: 500, target: 2000, color: '#57d28d' }
     ];
     this.activities = [
-      { text: 'Added ₵100 to Car Fund', time: new Date(), amount: 100 },
-      { text: 'Added ₵50 to Vacation', time: new Date(), amount: 50 }
+      { text: 'Added ksh 100 to Car Fund', time: new Date(), amount: 100 },
+      { text: 'Added ksh 50 to Vacation', time: new Date(), amount: 50 }
     ];
     this.badges = [
       { title: 'First Savings', earned: true },
@@ -111,18 +111,48 @@ export class Dashboard implements OnInit {
     return height - (val / max) * (height - 8);
   }
 
-  // === Placeholders for backend integration ===
+  // === Add Savings & Trigger Confetti ===
   addSavings(goalId: number, amount: number) {
     console.log(`Would POST /goals/${goalId}/savings {amount: ${amount}}`);
     const goal = this.goals.find(g => g.id === goalId);
     if (goal) {
       goal.saved += amount;
       this.activities.unshift({
-        text: `Added ₵${amount} to ${goal.title}`,
+        text: `Added ksh${amount} to ${goal.title}`,
         time: new Date(),
         amount
       });
+
+      // ✅ Check if goal reached target
+      if (goal.saved >= goal.target) {
+        this.launchConfetti();
+      }
     }
+  }
+
+  // 🎉 Bursting confetti celebration
+  private launchConfetti() {
+    const duration = 2 * 1000; // 2 seconds
+    const end = Date.now() + duration;
+
+    (function frame() {
+      confetti({
+        particleCount: 5,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 }
+      });
+      confetti({
+        particleCount: 5,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 }
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
   }
 
   createGoal(title: string, target: number) {
@@ -137,13 +167,11 @@ export class Dashboard implements OnInit {
     };
     this.goals.push(newGoal);
   }
-  // dashboard.component.ts
+
   scrollToSection(id: string) {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   }
-  
-
 }
