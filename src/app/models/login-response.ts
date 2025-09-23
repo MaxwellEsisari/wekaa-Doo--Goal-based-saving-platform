@@ -1,4 +1,7 @@
-export class LoginResponse {
-    token?: string
-    message?: string;
+export interface LoginResponse {
+  status: number;
+  message: string;
+  data: {
+    token: string;
+  };
 }
