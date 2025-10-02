@@ -22,7 +22,7 @@
   // Decorative left overlay
   &::after {
     content: '';
-    background-image: url('../../assets/images/slider-left-dec.png');
+    // background-image: url('../../assets/images/slider-left-dec.png');
     background-repeat: no-repeat;
     background-size: contain;
     position: absolute;
@@ -87,6 +87,41 @@
     }
   }
 
+  .hero-description {
+  flex: 1;
+  font-size: 1.1rem;
+  max-width: 60%;   
+}
+  .customers {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: sans-serif;
+  }
+
+  .profile-group {
+    display: flex;
+    align-items: center;
+  }
+
+  .profile-group .profile {
+    width: 40px;      
+    height: 40px;
+    border-radius: 50%; 
+    border: 2px solid #fff;
+    object-fit: cover;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+
+  .profile-group .profile:not(:first-child) {
+    margin-left: -15px; 
+  }
+
+  .customer-count {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+ 
 
  .right-image {
   flex: 1;

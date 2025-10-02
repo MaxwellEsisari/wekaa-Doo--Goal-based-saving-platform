@@ -3,5 +3,6 @@ export interface LoginResponse {
   message: string;
   data: {
     token: string;
+    role?: string ;
   };
 }

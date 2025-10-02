@@ -134,78 +134,53 @@ export class Header {
 onLogin() {
   this.isLoading = true;
   this.authMessage = '';
-
   const request = this.loginForm.value;
 
-this.authService.doLogin(request).subscribe({
-  next: (res: any) => {
-    console.log("📦 Full login response:", res);
+  this.authService.doLogin(request).subscribe({
+    next: (res: LoginResponse) => {
+      const token = res?.data?.token;
+      const role = res?.data?.role;
 
-    this.isSuccess = true;
+      if (!token || !role) {
+        this.isLoading = false;
+        this.authMessage = 'Login failed: missing token or role';
+        return;
+      }
 
-    // ✅ Extract token from res.data.token
-    const token = res?.data?.token;
-    if (token) {
       this.authService.saveToken(token);
-      console.log('✅ Token saved:', token);
+      localStorage.setItem('role', role);
 
-      const role = this.authService.getRole();
-      console.log('🎭 Role from token:', role);
-    } else {
-      console.warn("⚠️ No token found in response");
-    }
-
-    // Save user info
-    const user = {
-      id: res.user?.id || Date.now(),
-      firstname: res.user?.firstname || this.loginForm.value.email.split('@')[0],
-      email: this.loginForm.value.email
-    };
-    localStorage.setItem('user', JSON.stringify(user));
-
-    setTimeout(() => {
       this.isLoading = false;
       this.authMessage = 'Login successful!';
       this.isAccountOpen = false;
 
-      // ✅ Redirect based on role
-      const role = this.authService.getRole();
-      if (role === 'ROLE_ADMIN') {
-        this.router.navigate(['/admin-dashboard']);
-      } else if (role === 'ROLE_USER') {
-        this.router.navigate(['/user-dashboard']);
+     if (role === 'ADMIN' || role === 'USER') {
+        this.router.navigate(['/dashboard']);
       } else {
-        this.router.navigate(['/']); // fallback
+        this.router.navigate(['/']);
       }
-    }, 1000);
-  },
-  error: (err) => {
-    console.error('Login error:', err);
-    this.isSuccess = false;
 
-    setTimeout(() => {
+    },
+    error: (err) => {
       this.isLoading = false;
-      this.authMessage = 'Login failed. Please check your credentials.';
-      setTimeout(() => {
-        this.authMessage = '';
-        this.isSuccess = null;
-      }, 2000);
-    }, 1000);
-  }
-});
-
+      this.authMessage = 'Login failed. Check credentials.';
+      console.error('Login error:', err);
+    }
+  });
 }
+
+
+
+
 
 get dashboardLink(): string {
-  const role = this.authService.getRole();
-  if (role === 'ROLE_ADMIN') {
-    return '/admin-dashboard';
-  } else if (role === 'ROLE_USER') {
-    return '/user-dashboard';
-  }
-  return '/'; // fallback if no role
+  return '/dashboard';
 }
 
+
+get role(): string | null {
+  return this.authService.getRole();
+}
 
 
 
@@ -231,12 +206,12 @@ get userName(): string {
 
 
 logout() {
-  localStorage.removeItem('authToken');
-  localStorage.removeItem('user');
+  this.authService.clearToken();   
   this.authMessage = 'You have logged out successfully';
   this.accountPage = 'account-home'; 
-  this.router.navigate(['/']);       
+  this.router.navigate(['/']); 
 }
+
 
 onSignup() {
   if (this.signupForm.invalid) {

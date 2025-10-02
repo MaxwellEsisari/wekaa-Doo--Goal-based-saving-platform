@@ -1,22 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth-service';
-import { AdminDashboard } from '../admin-dashboard/admin-dashboard';
-import { UserDashboard } from '../user-dashboard/user-dashboard';
+import { AdminDashboard } from "../admin-dashboard/admin-dashboard";
+import { UserDashboard } from "../user-dashboard/user-dashboard";
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
-  imports: [CommonModule, AdminDashboard, UserDashboard],
+  standalone: true, 
   templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.scss']
+  imports: [CommonModule, AdminDashboard, UserDashboard], 
 })
-export class DashboardComponent implements OnInit {
-  role: string | null = null;
+export class Dashboard {
+  constructor(private authService: AuthService) {}
 
-  constructor(private auth: AuthService) {}
-
-  ngOnInit(): void {
-    this.role = this.auth.getRole();  // 'ROLE_ADMIN' | 'ROLE_USER' | null
+  // Always up-to-date
+  get role(): string | null {
+    return this.authService.getRole();
   }
 }

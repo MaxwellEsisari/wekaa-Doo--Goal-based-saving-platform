@@ -49,9 +49,10 @@
           </p>
           
           <div class="auth-links">
-           <a *ngIf="isLoggedIn" [routerLink]="dashboardLink" class="dashboard">Dashboard</a>
-            <!-- <a routerLink="/profile" class="profile">Profile</a> -->
-            <a href="javascript:void(0)" (click)="logout()" class="logout">Logout</a>
+            <div class="auth-links">
+              <a *ngIf="isLoggedIn" [routerLink]="dashboardLink" class="dashboard">Dashboard</a>
+              <a href="javascript:void(0)" (click)="logout()" class="logout">Logout</a>
+            </div>
           </div>
         </ng-template>
       </ng-container>
@@ -82,7 +83,6 @@
           <!-- Loader -->
           <div *ngIf="isLoading" class="form-loader">
             <div class="spinner"></div>
-            <p>Logging in...</p>
           </div>
         </div>
         <a href="javascript:void(0)" (click)="goBack($event)">← Back</a>

@@ -1,1 +1,32 @@
-<p>user-dashboard works!</p>
+    <!-- Header -->
+    <header class="header">
+      <!-- Search Area -->
+      <div class="search-bar">
+        <input type="text" placeholder="🔍 Search here..." />
+      </div>
+
+      <div class="header-actions">
+        <!-- Notifications -->
+        <div class="notifications">
+          <button class="notif-btn" (click)="toggleNotifications()">🔔</button>
+          <div class="notif-dropdown" *ngIf="showNotifications">
+            <p><strong>Recent Alerts</strong></p>
+            <ul>
+              <li>New user registered</li>
+              <li>Goal completed: School Fees</li>
+              <li>Payment API error detected</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Create Goal -->
+        <!-- <button (click)="createGoal()" class="btn-create-goal">
+          ➕ Create Goal
+        </button> -->
+
+        <!-- Profile Image -->
+        <div class="profile">
+          <img src="client-image.jpg" alt="Profile" />
+        </div>
+      </div>
+    </header>
